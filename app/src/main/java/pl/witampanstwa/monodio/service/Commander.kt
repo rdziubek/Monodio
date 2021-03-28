@@ -2,11 +2,10 @@ package pl.witampanstwa.monodio.service
 
 import android.service.quicksettings.Tile
 import android.service.quicksettings.TileService
-import android.util.Log
 import android.widget.Toast
 import pl.witampanstwa.monodio.component.AudioSettings
 import pl.witampanstwa.monodio.component.Shell
-
+import pl.witampanstwa.monodio.exception.PrivilegeException
 
 class Commander : TileService() {
     private val shell = Shell()
@@ -14,25 +13,22 @@ class Commander : TileService() {
     override fun onClick() {
         super.onClick()
 
-        Log.d("Commander", "seen click")
-
-        val tile = qsTile
-
-        val audioSettings = AudioSettings(shell)
+        lateinit var audioSettings: AudioSettings
 
         try {
-            Log.d("Commander", "Returned from Shell")
-
+            audioSettings = AudioSettings(shell)
             audioSettings.flipMono()
-            tile.state = if (audioSettings.mono) Tile.STATE_ACTIVE else Tile.STATE_INACTIVE
-            tile.updateTile()
-        } catch (e: Exception) {
-            Log.d("Commander", e.toString())
+            updateTile(qsTile, audioSettings.mono)
+        } catch (e: PrivilegeException) {
+            Toast.makeText(baseContext, "${e.suppressed} ${e.message}", Toast.LENGTH_LONG).show()
         }
+    }
 
-        val text = "Did it!"
-        val duration = Toast.LENGTH_SHORT
-        val toast = Toast.makeText(applicationContext, text, duration)
-        toast.show()
+    companion object {
+        @JvmStatic
+        fun updateTile(tile: Tile, litUp: Boolean) {
+            tile.state = if (litUp) Tile.STATE_ACTIVE else Tile.STATE_INACTIVE
+            tile.updateTile()
+        }
     }
 }
