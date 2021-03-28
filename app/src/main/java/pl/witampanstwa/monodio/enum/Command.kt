@@ -6,7 +6,7 @@ enum class Command {
 
     enum class ReturnCode(val value: Int) {
         GOOD(0),
-        INCORRECT_USAGE(255),
+        INSUFFICIENT_PRIVILEGES(255),
         NO_SUCH_COMMAND(127),
         DENIED(13),
     }

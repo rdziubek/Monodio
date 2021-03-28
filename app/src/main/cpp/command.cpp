@@ -4,7 +4,6 @@
 #include <jni.h>
 #include <string>
 #include <unistd.h>
-#include <android/log.h>
 #include <bitset>
 #include <iomanip>
 #include <array>

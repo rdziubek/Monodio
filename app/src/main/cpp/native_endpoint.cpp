@@ -1,7 +1,6 @@
 #include <jni.h>
 #include <string>
 #include <unistd.h>
-#include <android/log.h>
 #include <bitset>
 #include <iomanip>
 #include <array>
@@ -9,7 +8,7 @@
 #include "command.h"
 
 extern "C" JNIEXPORT jobject JNICALL
-Java_pl_witampanstwa_monodio_component_Shell_execute(
+Java_pl_witampanstwa_monodio_component_Shell_executeNative(
         JNIEnv *env,
         jobject that,
         jstring arguments,
@@ -25,6 +24,5 @@ Java_pl_witampanstwa_monodio_component_Shell_execute(
                                                   static_cast<jint>(command.exit_status()),
                                                   env->NewStringUTF(command.std_out().c_str()),
                                                   env->NewStringUTF(command.std_err().c_str()));
-
     return commandInstanceModel;
 }
