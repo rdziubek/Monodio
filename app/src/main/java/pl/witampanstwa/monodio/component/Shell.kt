@@ -39,7 +39,9 @@ class Shell {
             bufferedReader.close()
 
             if (output == null) {
-                throw PrivilegeException(Resources.getSystem().getString(R.string.insufficient_privilege))
+                throw PrivilegeException(
+                    Resources.getSystem().getString(R.string.insufficient_privilege)
+                )
             }
             return output.toString()
         } else {
