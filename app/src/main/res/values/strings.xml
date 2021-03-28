@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Monodio</string>
+    <string name="tile_name">Monodio</string>
+    <string name="insufficient_privilege">Konfiguracja telefonu odmawia uprawnień aplikacji!</string>
+</resources>
