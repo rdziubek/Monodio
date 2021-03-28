@@ -9,7 +9,7 @@
 #include "command.h"
 
 extern "C" JNIEXPORT jobject JNICALL
-Java_pl_witampanstwa_monodio_MainActivity_execute(
+Java_pl_witampanstwa_monodio_service_Commander_execute(
         JNIEnv *env,
         jobject that,
         jstring arguments,

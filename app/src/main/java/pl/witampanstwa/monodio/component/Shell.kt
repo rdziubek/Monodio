@@ -20,7 +20,6 @@ class Shell {
      * and if applicable returns shell response.
      */
     fun execute(instruction: String, provideOutput: Boolean = true): String {
-        Log.d("Commander", Resources.getSystem().getString(R.string.insufficient_privilege))
         val shell: Process = Runtime.getRuntime().exec("su")
         val outputStream = DataOutputStream(shell.outputStream)
 
@@ -40,7 +39,7 @@ class Shell {
 
             if (output == null) {
                 throw PrivilegeException(
-                    Resources.getSystem().getString(R.string.insufficient_privilege)
+                    "Konfiguracja telefonu odmawia uprawnień aplikacji!"
                 )
             }
             return output.toString()

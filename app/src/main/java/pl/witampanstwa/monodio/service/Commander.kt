@@ -6,6 +6,8 @@ import android.util.Log
 import android.widget.Toast
 import pl.witampanstwa.monodio.component.AudioSettings
 import pl.witampanstwa.monodio.component.Shell
+import pl.witampanstwa.monodio.component.CommandResult
+import pl.witampanstwa.monodio.enum.Command
 
 
 class Commander : TileService() {
@@ -14,6 +16,16 @@ class Commander : TileService() {
     override fun onClick() {
         super.onClick()
         Log.d("Commander", "seen click")
+
+        val commandResult = execute(
+            "settings",
+            Command.User.DEFAULT.value
+        )
+
+        Log.d(
+            "CommanderJava",
+            "onCreate: code: ${commandResult.returnCode} out: ${commandResult.stdOut} err: ${commandResult.stdErr}"
+        )
 
         val tile = qsTile
         val audioSettings = AudioSettings(shell)
@@ -30,5 +42,16 @@ class Commander : TileService() {
         val toast =
             Toast.makeText(applicationContext, "mono: ${audioSettings.mono}", Toast.LENGTH_SHORT)
         toast.show()
+    }
+
+    private external fun execute(
+        command: String,
+        user: Int = Command.User.PRIVILEGED.value
+    ): CommandResult
+
+    companion object {
+        init {
+            System.loadLibrary("monodio")
+        }
     }
 }
