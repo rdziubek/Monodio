@@ -7,7 +7,6 @@ import pl.witampanstwa.monodio.component.AudioSettings
 import pl.witampanstwa.monodio.component.Shell
 import pl.witampanstwa.monodio.exception.PrivilegeException
 
-
 class Commander : TileService() {
     private val shell = Shell()
 
