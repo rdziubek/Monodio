@@ -1,6 +1,7 @@
 package pl.witampanstwa.monodio.component
 
 import android.util.Log
+import pl.witampanstwa.monodio.enum.Command
 import pl.witampanstwa.monodio.extension.ShellBoolean
 
 /**
@@ -13,14 +14,15 @@ import pl.witampanstwa.monodio.extension.ShellBoolean
  */
 class AudioSettings(private val communicationChannel: Shell) {
     var mono: Boolean =
-        Shell.parseToBoolean(communicationChannel.execute("settings get system master_mono"))
+        Shell.parseToBoolean(
+            communicationChannel.execute(
+                "settings get system master_mono"
+            ).stdOut
+        )
         private set(value) {
             communicationChannel.execute(
-                "settings put system master_mono ${ShellBoolean(value).value}",
-                false
+                "settings put system master_mono ${ShellBoolean(value).value}"
             )
-
-            // TODO: Add an additional (deferred, working in the background thread) check.
             field = value
         }
 
