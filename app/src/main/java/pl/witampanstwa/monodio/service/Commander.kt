@@ -20,7 +20,10 @@ class Commander : TileService() {
             audioSettings.flipMono()
             updateTile(qsTile, audioSettings.mono)
         } catch (e: PrivilegeException) {
-            Toast.makeText(baseContext, "${e.suppressed} ${e.message}", Toast.LENGTH_LONG).show()
+            Toast.makeText(
+                baseContext, "${e.javaClass.kotlin}\n\n${e.message}",
+                Toast.LENGTH_LONG
+            ).show()
         }
     }
 

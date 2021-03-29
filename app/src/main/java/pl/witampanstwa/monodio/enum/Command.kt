@@ -1,12 +1,13 @@
 package pl.witampanstwa.monodio.enum
 
 
-enum class Command {
-    COMMAND;
+enum class Command(val value: String) {
+    COMMAND_GET("settings get system master_mono"),
+    COMMAND_SET("settings put system master_mono");
 
     enum class ReturnCode(val value: Int) {
         GOOD(0),
-        INSUFFICIENT_PRIVILEGES(255),
+        BAD_USAGE(255),
         NO_SUCH_COMMAND(127),
         DENIED(13),
     }

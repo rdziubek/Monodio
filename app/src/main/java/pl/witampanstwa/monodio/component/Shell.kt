@@ -1,5 +1,6 @@
 package pl.witampanstwa.monodio.component
 
+import android.util.Log
 import pl.witampanstwa.monodio.enum.Command
 import pl.witampanstwa.monodio.exception.PrivilegeException
 
@@ -7,22 +8,37 @@ import pl.witampanstwa.monodio.exception.PrivilegeException
 class Shell {
 
     fun execute(command: String, user: Int = Command.User.PRIVILEGED.value): CommandResult {
-        if (!isPrivilegedBinaryPresent()) {
-            throw PrivilegeException("Konfiguracja urządzenia jest nieodpowiednia")
+        if (!privilegedBinaryPresent()) {
+            val exception = PrivilegeException(
+                PrivilegeException.Message.INCORRECT_CONFIG.value
+            )
+
+            Log.e(
+                Logger.SYMBOL,
+                null, exception
+            )
+            throw exception
         }
 
         val result: CommandResult = this.executeNative(command, user)
-
         if (result.returnCode == Command.ReturnCode.DENIED.value ||
-            result.returnCode == Command.ReturnCode.INSUFFICIENT_PRIVILEGES.value
+            result.returnCode == Command.ReturnCode.BAD_USAGE.value
         ) {
-            throw PrivilegeException("Aplikacji nie przydzielono wystarczających uprawnień")
+            val exception = PrivilegeException(
+                PrivilegeException.Message.INSUFFICIENT_PERMISSIONS.value
+            )
+
+            Log.e(
+                Logger.SYMBOL,
+                result.toString(), exception
+            )
+            throw exception
         }
 
         return result
     }
 
-    private fun isPrivilegedBinaryPresent(): Boolean {
+    private fun privilegedBinaryPresent(): Boolean {
         val test: CommandResult = this.executeNative("su", Command.User.DEFAULT.value)
 
         if (test.returnCode == Command.ReturnCode.NO_SUCH_COMMAND.value) {
@@ -45,14 +61,23 @@ class Shell {
          * Checks for a boolean shell response.
          * If none found, exception is thrown.
          */
-        fun parseToBoolean(response: String): Boolean {
-            val cleanResponse = response.trim()
+        fun parseToBoolean(responseRaw: String): Boolean {
+            val response = responseRaw.trim()
 
-            if (cleanResponse == "1" || cleanResponse == "0") {
-                return Integer.parseInt(cleanResponse) != 0
+            if (response == Response.TRUE || response == Response.FALSE) {
+                return Integer.parseInt(response) != 0
             } else {
-                throw Exception("Invalid response (\"$cleanResponse\")")
+                throw Exception("Invalid response (\"$response\")")
             }
+        }
+
+        object Response {
+            const val TRUE: String = "1"
+            const val FALSE: String = "0"
+        }
+
+        object Logger {
+            const val SYMBOL = "ShellChannel"
         }
     }
 }
