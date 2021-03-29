@@ -1,5 +1,6 @@
 package pl.witampanstwa.monodio.component
 
+import pl.witampanstwa.monodio.enum.Command
 import pl.witampanstwa.monodio.extension.ShellBoolean
 
 /**
@@ -14,12 +15,12 @@ class AudioSettings(private val communicationChannel: Shell) {
     var mono: Boolean =
         Shell.parseToBoolean(
             communicationChannel.execute(
-                "settings get system master_mono"
+                Command.COMMAND_GET.value
             ).stdOut
         )
         private set(value) {
             communicationChannel.execute(
-                "settings put system master_mono ${ShellBoolean(value).value}"
+                "${Command.COMMAND_SET.value} ${ShellBoolean(value).value}"
             )
             field = value
         }
