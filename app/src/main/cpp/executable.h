@@ -1,5 +1,5 @@
-#ifndef MY_APPLICATION_EXECUTABLE_H
-#define MY_APPLICATION_EXECUTABLE_H
+#ifndef MONODIO_EXECUTABLE_H
+#define MONODIO_EXECUTABLE_H
 
 struct Executable {
     static inline const char *kPathPrivileged = "/sbin/su";
@@ -8,4 +8,4 @@ struct Executable {
     static inline const char *kAliasDefault = "sh";
 };
 
-#endif //MY_APPLICATION_EXECUTABLE_H
+#endif //MONODIO_EXECUTABLE_H
