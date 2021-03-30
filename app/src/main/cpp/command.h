@@ -1,5 +1,5 @@
-#ifndef MY_APPLICATION_COMMAND_H
-#define MY_APPLICATION_COMMAND_H
+#ifndef MONODIO_COMMAND_H
+#define MONODIO_COMMAND_H
 
 #include <string>
 #include "user.h"
